@@ -1,0 +1,9 @@
+[submodule "sike"]
+	path = tools/sike
+	url = https://github.com/Jhynjhiruu/sike.git
+[submodule "sharkpatch"]
+	path = tools/sharkpatch
+	url = https://github.com/Jhynjhiruu/sharkpatch.git
+[submodule "gscrc"]
+	path = tools/gscrc
+	url = https://github.com/Jhynjhiruu/gscrc.git

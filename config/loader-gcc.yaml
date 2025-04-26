@@ -1,0 +1,99 @@
+name: SharkWire (USA ???)
+sha1: 3c35f73ac0a7e28ade7d754304b711636bc3657b
+options:
+  basename: loader-gcc
+  target_path: baserom.z64
+  elf_path: build/loader-gcc.elf
+  base_path: ..
+  platform: n64
+  compiler: GCC
+
+  asm_path: asm/loader-gcc
+  src_path: src/loader
+  build_path: build
+  asset_path: assets/loader-gcc
+  #create_asm_dependencies: True
+
+  ld_script_path: loader-gcc.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+  mips_abi_float_regs: o32
+
+  # asm_function_macro: glabel
+  # asm_jtbl_label_macro: jlabel
+  # asm_data_macro: dlabel
+
+  section_order: [".text", ".rdata", ".rodata", ".sbss", ".bss", ".data"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - symbol_addrs.txt
+  reloc_addrs_path:
+    - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
+
+  extensions_path: tools/splat_ext
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
+  # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
+  hasm_in_src_path: True
+  #named_regs_for_c_funcs: False
+  migrate_rodata_to_functions: True
+  pair_rodata_to_text: True
+  ld_bss_is_noload: True
+  ld_symbol_header_path: include/loader/linker.h
+segments:
+  - name: header
+    type: code
+    start: 0x0
+    vram: 0
+    subsegments:
+      - [0x0, hasm, header]
+
+  - name: boot
+    type: bin
+    start: 0x40
+
+  - name: loader
+    type: code
+    start: 0x1000
+    vram: 0x80201000
+    subsegments:
+      - [0x1000, hasm, loader]
+
+  - name: main
+    type: code
+    start: 0x10B0
+    vram: 0x802010B0
+    subsegments:
+      - [0x10B0, c, main]
+      - [0x16A0, hasm]
+      - [0x2930, c]
+      - [0x2DC0, c]
+      - [0x2E90, hasm]
+      - [0x2FE0, c]
+      - [0x30A0, c]
+      - [0x3980, i4, font, 8, 1748]
+      - [0x54D0, bin]
+      - [0x5530, .rdata, main]
+      - [0x5550, .rdata, "2930"]
+      - [0x57A0, .rdata, "30A0"]
+      - [0x5930, .sbss, main]
+      - [0x5960, bin]
+      - [0xCBD00, rdata]
+      - [0xCBD50, rdata]
+      - [0xE1C80, rdata]
+
+  - [0x100000]

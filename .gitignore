@@ -1,0 +1,15 @@
+*.z64
+
+*.d
+*.ld
+
+/asm
+/assets
+/build
+
+/include/*/
+
+tools/diff.py
+
+/.vscode
+*.pyc
