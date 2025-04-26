@@ -1,40 +1,27 @@
 #include "common.h"
-#include "include_asm.h"
+#include "regs.h"
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802030A0);
+#define PIF_RAM(addr) (0x1FC00000 + (addr))
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802030BC);
+void func_802030A0(void) {
+    volatile SI_regs_t *si = (void *)PHYS_TO_K1(SI_BASE);
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802030E4);
+    while ((u32)si->PIF_addr_read_broken & 3) { // BUG: wrong address!
+        continue;
+    }
+}
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203118);
+u32 func_802030BC(u32 *addr) {
+    func_802030A0();
+    return READ32(addr);
+}
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203148);
+void func_802030E4(u32 *addr, u32 data) {
+    func_802030A0();
+    WRITE32(addr, data);
+}
 
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203190);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802031F8);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203224);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203268);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203278);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802032C4);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203448);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_8020348C);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802034C0);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802034F0);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203520);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_80203550);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802035DC);
-
-INCLUDE_ASM("asm/loader/nonmatchings/30A0", func_802037F8);
+void func_80203118(void) {
+    const u32 addr = PHYS_TO_K1(PIF_RAM(0x7FC));
+    func_802030E4(addr, func_802030BC(addr) | 8);
+}

@@ -1,15 +1,7 @@
 #include "common.h"
 #include "include_asm.h"
 
-/**/ s32 D_80205930;
-s32 D_80205934;
-/**/ s32 D_80205938;
-/**/ s32 D_8020593C;
-/**/ s32 D_80205940;
-/**/ s32 D_80205944;
-/**/ s32 D_80205948;
-s32 D_8020594C;
-s32 D_80205950;
+#include "bss.h"
 
 void func_802010B0(void) {
     uint i;
@@ -23,8 +15,8 @@ void func_802010CC(void) {
     int i;
 
     func_802031F8(0);
-    D_8020594C = 0x1E;
-    D_80205950 = 0x1E;
+    D_8020594C = 30;
+    D_80205950 = 30;
     func_802035DC("PROGRAMMING:");
 
     for (i = 0; i < 8; i++) {

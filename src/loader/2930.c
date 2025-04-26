@@ -1,9 +1,12 @@
+#include "addrs.h"
 #include "common.h"
 #include "include_asm.h"
 #include "loader/linker.h"
 #include "regs.h"
 
 #include "hw.h"
+#define BSS_REAL
+#include "bss.h"
 
 const char D_80205550[][40] = {
     "##        ##   ##   #####     ##### ",
@@ -22,13 +25,6 @@ const char D_AAAA[][36] = {
     "#######   #####    ##    ##      ",
 };
 
-// bss
-extern s32 D_8020593C;
-extern s32 D_80205940;
-extern s32 D_80205948;
-extern s32 D_8020594C;
-extern s32 D_80205950;
-
 void func_80202930(void *entry_addr) {
     int i;
     int *fbuf;
@@ -39,7 +35,7 @@ void func_80202930(void *entry_addr) {
     func_802030E4(0xBFC007FC, func_802030BC(0xBFC007FC) | 8);
     func_80202E40(0xB1000000);
 
-    fbuf = (s32 *)0x80308000;
+    fbuf = (s32 *)FRAMEBUFFER_0;
 
     for (i = 0; i < 0x13000; i++) {
         fbuf[i] = 0;
@@ -47,10 +43,10 @@ void func_80202930(void *entry_addr) {
 
     func_802037F8(0);
 
-    D_80205948 = 0xA0308000;
+    D_80205948 = (void *)PHYS_TO_K1(FRAMEBUFFER_0);
     vi->framebuffer = D_80205948;
 
-    D_8020593C = 0xA039E000;
+    D_8020593C = (void *)PHYS_TO_K1(FRAMEBUFFER_1);
 
     func_80202B18(); // work around a splat bug
     func_802016E4(/*main_5960_OFFSET*/ main_DATA_START, 0x80000400);
