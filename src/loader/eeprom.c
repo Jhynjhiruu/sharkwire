@@ -2,6 +2,7 @@
 #include "include_asm.h"
 
 #include "bss.h"
+#include "vi.h"
 
 void func_802010B0(void) {
     uint i;

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "regs.h"
 
-#define PIF_RAM(addr) (0x1FC00000 + (addr))
+#include "si.h"
 
 void func_802030A0(void) {
     volatile SI_regs_t *si = (void *)PHYS_TO_K1(SI_BASE);

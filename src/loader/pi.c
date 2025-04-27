@@ -3,6 +3,8 @@
 
 #include "pi.h"
 
+#include "util.h"
+
 void func_80202FE0(void) {
     volatile PI_regs_t *pi = (void *)PHYS_TO_K1(PI_BASE);
 
