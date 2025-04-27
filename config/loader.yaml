@@ -82,6 +82,7 @@ segments:
       - [0x10B0, c, eeprom]
       - [0x16A0, hasm, lz77]
       - [0x2930, c, main]
+      - [0x2A00, c, update]
       - [0x2DC0, c, hw]
       - [0x2E90, hasm, util]
       - [0x2FE0, c, pi]
@@ -91,12 +92,12 @@ segments:
       - { start: 0x3980, type: i4, name: font, width: 8, height: 1748, linker_section_order: ".rodata" }
       - { start: 0x54D0, type: bin, linker_section_order: ".rodata" }
       - [0x5530, .rdata, eeprom]
-      - [0x5550, .rdata, main]
+      - [0x5550, .rdata, update]
       - [0x57A0, .rdata, vi]
       - [0x5930, .sbss, main]
       - [0x5960, linker_offset]
       - [0x5960, bin]
-      - [0xCBD00, data]
+      - [0xCBD00, .data, update]
       - [0xCBD50, .data, hw]
       - [0xCBD60, pad]
       - [0xE0000, bin]

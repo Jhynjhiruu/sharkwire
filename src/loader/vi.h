@@ -19,7 +19,7 @@ void func_802032C4(int c);
 
 void func_80203448(char *str);
 
-void func_8020348C(s32 arg0);
+void func_8020348C(int c);
 
 void func_802034C0(int byte);
 
@@ -27,7 +27,7 @@ void func_802034F0(int halfword);
 
 void func_80203520(int word);
 
-void func_80203550(int num, uint base, int is_signed);
+void func_80203550(int num, uint base, bool is_signed);
 
 int func_802035DC(char *fmt, ...);
 

@@ -2,6 +2,7 @@
 #include "include_asm.h"
 
 #include "bss.h"
+#include "colour.h"
 #include "vi.h"
 
 void func_802010B0(void) {
@@ -15,7 +16,7 @@ void func_802010B0(void) {
 void func_802010CC(void) {
     int i;
 
-    func_802031F8(0);
+    func_802031F8(BLACK);
     D_8020594C = 30;
     D_80205950 = 30;
     func_802035DC("PROGRAMMING:");

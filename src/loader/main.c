@@ -9,25 +9,9 @@
 #include "bss.h"
 #include "lz77.h"
 #include "si.h"
+#include "update.h"
 #include "util.h"
 #include "vi.h"
-
-const char D_80205550[][40] = {
-    "##        ##   ##   #####     ##### ",
-    "##        ##   ##  ##   ##   ##   ##",
-    "##        ##   ##       ##        ##",
-    "######    #######   #####     ##### ",
-    "##   ##   ##   ##  ##        ##     ",
-    "##   ##   ##   ##  ##   ##   ##   ##",
-    "#######    #####    #####     ##### ",
-};
-
-const char D_AAAA[][36] = {
-    "##       ##   ##   ##    ########",
-    "####     #######   ##    ##      ",
-    "##       ##   ##   ##    ##      ",
-    "#######   #####    ##    ##      ",
-};
 
 void func_80202930(void *entry_addr) {
     int i;
@@ -62,27 +46,4 @@ void func_80202930(void *entry_addr) {
             "add    $8, (0x80000400 & 0xFFFF)\n"
             "jr     $8                       \n"
             " nop                            \n");
-}
-
-INCLUDE_ASM("asm/loader/nonmatchings/main", func_80202A00);
-
-INCLUDE_ASM("asm/loader/nonmatchings/main", func_80202B18);
-
-void func_80202CF4(s32 *arg0, s32 arg1) {
-    int i;
-
-    D_80205940 = 0;
-    D_80205950 = 40;
-
-    for (i = 0; i < 9; i++) {
-        D_8020594C = 50;
-        func_802035DC(arg0[i]);
-        D_80205950 += 8;
-    }
-
-    if (arg1 != 0) {
-        D_8020594C = 50;
-        D_80205950 += 8;
-        func_802035DC(arg1);
-    }
 }

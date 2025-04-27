@@ -6,9 +6,10 @@
 #include "vi.h"
 
 #include "bss.h"
+#include "colour.h"
 
 void func_80203150(int x, int y, int r, int g, int b) {
-    u16 col = (r << 11) | (g << 6) | (b << 1);
+    int col = RGB5_TO_COL(r, g, b);
 
     D_8020593C[y * SCREEN_WIDTH + x] = col;
 }
@@ -102,8 +103,8 @@ void func_80203448(char *str) {
     }
 }
 
-void func_8020348C(s32 arg0) {
-    int nibble = arg0 & 0xF;
+void func_8020348C(int c) {
+    int nibble = c & 0xF;
     int c;
 
     if (nibble > 9) {
@@ -130,7 +131,7 @@ void func_80203520(int word) {
     func_802034F0(word);
 }
 
-void func_80203550(int num, uint base, int is_signed) {
+void func_80203550(int num, uint base, bool is_signed) {
     char *chars = "0123456789ABCDEF";
     int rem;
 
@@ -148,54 +149,67 @@ void func_80203550(int num, uint base, int is_signed) {
 }
 
 int func_802035DC(char *fmt, ...) {
-    int count;
+    int count = 0;
     va_list args;
 
-    count = 0;
     va_start(args, fmt);
+
     while (*fmt != '\0') {
         if (*fmt == '%') {
             fmt++;
+
             switch (*fmt) {
                 case '2':
                     func_802034C0(va_arg(args, int));
                     break;
+
                 case '4':
                     func_802034F0(va_arg(args, int));
                     break;
+
                 case '8':
                     func_80203520(va_arg(args, uint));
                     break;
+
                 case 'c':
                     func_802032C4(va_arg(args, int));
                     break;
+
                 case 'd':
                     func_80203550(va_arg(args, int), 10, 1);
                     break;
+
                 case 'u':
                     func_80203550(va_arg(args, uint), 10, 0);
                     break;
+
                 case 'o':
                     func_80203550(va_arg(args, uint), 8, 0);
                     break;
+
                 case 'x':
                     func_80203550(va_arg(args, uint), 16, 0);
                     break;
+
                 case 's':
                     func_80203448(va_arg(args, char *));
                     break;
+
                 case 'l':
                     fmt++;
                     switch (*fmt) {
                         case 'd':
                             func_80203550(va_arg(args, s32), 10, 1);
                             break;
+
                         case 'u':
                             func_80203550(va_arg(args, uint), 10, 0);
                             break;
+
                         case 'o':
                             func_80203550(va_arg(args, uint), 8, 0);
                             break;
+
                         case 'x':
                             func_80203550(va_arg(args, uint), 16, 0);
                             break;
@@ -204,17 +218,22 @@ int func_802035DC(char *fmt, ...) {
                 case '%':
                     func_802032C4(*fmt);
                     break;
+
                 default:
                     va_end(args);
                     return -1;
             }
+
             count++;
         } else {
             func_802032C4(*fmt);
         }
+
         fmt++;
     }
+
     va_end(args);
+
     return count;
 }
 
@@ -255,15 +274,15 @@ void func_802037F8(bool pal) {
     D_80205948 = 0xA0080000;
 
     D_8020593C = D_80205948;
-    func_802031F8(0);
+    func_802031F8(BLACK);
     D_8020593C = 0xA0116000;
-    func_802031F8(0);
+    func_802031F8(BLACK);
 
     vi_init(pal);
 
     D_8020594C = 0x10;
     D_80205950 = 0;
-    D_80205940 = 0xFFFE;
-    D_80205930 = 0;
+    D_80205940 = WHITE;
+    D_80205930 = BLACK;
     D_80205938 = 1;
 }
