@@ -28,7 +28,7 @@ options:
   # asm_jtbl_label_macro: jlabel
   # asm_data_macro: dlabel
 
-  section_order: [".text", ".font", ".rdata", ".rodata", ".sbss", ".bss", ".data"]
+  section_order: [".text", ".rdata", ".rodata", ".sbss", ".bss", ".data"]
   # auto_link_sections: [".data", ".rodata", ".bss"]
 
   symbol_addrs_path:
@@ -54,6 +54,7 @@ options:
   pair_rodata_to_text: True
   ld_bss_is_noload: False
   ld_symbol_header_path: include/loader/linker.h
+  add_set_gp_64: false
   ld_fill_value: 0xFFFFFFFF
 segments:
   - name: header
@@ -96,7 +97,7 @@ segments:
       - [0x57A0, .rdata, vi]
       - [0x5930, .sbss, main]
       - [0x5960, linker_offset]
-      - [0x5960, bin]
+      - [0x5960, lz77, lz77, browser]
       - [0xCBD00, .data, update]
       - [0xCBD50, .data, hw]
       - [0xCBD60, pad]

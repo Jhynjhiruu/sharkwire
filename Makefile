@@ -15,7 +15,9 @@ BASE_NAME := loader
 C_FILES := src/eeprom.c src/main.c src/update.c src/hw.c src/pi.c src/si.c src/vi.c
 S_FILES := src/header.s src/loader.s src/lz77.s src/util.s
 D_FILES := 
-B_FILES := assets/boot.bin assets/font.bin assets/54D0.bin assets/5960.bin assets/E0000.bin
+B_FILES := assets/boot.bin assets/font.bin assets/54D0.bin assets/E0000.bin
+
+LZ77_FILE := assets/browser.bin
 
 ##FSBLOB_FILES := fs/shell.bin fs/gslogo3.bin fs/gslogo3.pal fs/tile1.tg~ fs/trainer.bin
 

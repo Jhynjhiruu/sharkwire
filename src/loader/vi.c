@@ -72,9 +72,11 @@ void func_802032C4(int c) {
             D_8020594C = 16;
             D_80205950 += 8;
             break;
+
         case '\r':
             D_8020594C = 16;
             break;
+
         default:
             row = // work around splat bug
                 (void *)&/*main_3980_OFFSET*/ main_RODATA_START[(c - ' ') << 5];

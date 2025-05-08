@@ -7,3 +7,6 @@
 [submodule "gscrc"]
 	path = tools/gscrc
 	url = https://github.com/Jhynjhiruu/gscrc.git
+[submodule "sharkwire-lz77"]
+	path = tools/sharkwire-lz77
+	url = https://github.com/Jhynjhiruu/sharkwire-lz77.git

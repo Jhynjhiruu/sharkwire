@@ -1,0 +1,181 @@
+name: browser.bin (USA ???)
+sha1: 606ff1ed894604b8e1a4466d03a71db1b8154cad
+options:
+  basename: browser
+  target_path: assets/loader/browser.bin
+  elf_path: build/browser.elf
+  base_path: ..
+  platform: n64
+  compiler: SN64
+
+  asm_path: asm/browser-gcc
+  src_path: src/browser
+  build_path: build
+  asset_path: assets/browser-gcc
+  # create_asm_dependencies: True
+
+  ld_script_path: browser-gcc.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+  mips_abi_float_regs: o32
+
+  # asm_function_macro: glabel
+  # asm_jtbl_label_macro: jlabel
+  # asm_data_macro: dlabel
+
+  section_order: [".text", ".rdata", ".rodata", ".data", ".sdata", ".bss", ".sbss"]
+  auto_link_sections: [".text", ".rdata", ".data"]
+
+  symbol_addrs_path:
+    - symbol_addrs_browser.txt
+  reloc_addrs_path:
+    - reloc_addrs_browser.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
+
+  extensions_path: tools/splat_ext
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
+  # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
+  hasm_in_src_path: true
+  named_regs_for_c_funcs: true
+  migrate_rodata_to_functions: true
+  pair_rodata_to_text: true
+  ld_bss_is_noload: true
+  ld_symbol_header_path: include/browser/linker.h
+  add_set_gp_64: false
+segments:
+  - name: main
+    type: code
+    start: 0x0
+    vram: 0x80000400
+    subalign: 0x40
+    subsegments:
+      - [0x0, c, main]
+      - [0x40, hasm]
+      - [0x480, c]
+      - [0x5480, c]
+      - [0xE380, c]
+      - [0x10C80, asm]
+      - [0x11340, c]
+      - [0x19A00, c]
+      - [0x1B040, c]
+      - [0x1BD00, c]
+      - [0x25D40, hasm]
+      - [0x46F00, asm]
+      - [0x51140, c]
+      - [0x53100, c]
+      - [0x53C40, hasm]
+      - [0x67240, hasm]
+      - [0x6D500, hasm]
+      - [0x79600, hasm]
+      - [0x80300, hasm]
+      - [0x84380, hasm]
+      - [0x9CD40, asm]
+      - [0xA1E80, hasm]
+      - [0xA5240, hasm]
+      - [0xB5480, hasm]
+      - [0xBD480, asm]
+      - [0xCBD00, hasm]
+      - [0xDFD00, hasm]
+      - [0xDFD40, rdata]
+      - [0xEC3C0, rdata]
+      - [0xED500, rdata]
+      - [0xEE0C0, rdata]
+      - [0xEE800, rdata]
+      - [0xEE840, rdata]
+      - [0xEE880, rdata]
+      - [0xEE9C0, rdata]
+      - [0xEEA00, rdata]
+      - [0xEEA80, rdata]
+      - [0xEEEC0, rdata]
+      - [0xEEFC0, rdata]
+      - [0xF00C0, rdata]
+      - [0xF0400, rdata]
+      - [0xF0AC0, rdata]
+      - [0xF4940, rdata]
+      - [0xFBF40, rdata]
+      - [0xFF100, rdata]
+      - [0xFF140, rdata]
+      - [0xFF1C0, rdata]
+      - [0xFF240, rdata]
+      - [0xFF600, rdata]
+      - [0x1004C0, rdata]
+      - [0x10D440, rdata]
+      - [0x10D500, rdata]
+      - [0x10D5C0, rdata]
+      - [0x10D680, rdata]
+      - [0x10DB80, rdata]
+      - [0x10FC40, rdata]
+      - [0x10FD40, rdata]
+      - [0x10FDC0, rdata]
+      - [0x10FE80, rdata]
+      - [0x10FEC0, rdata]
+      - [0x10FF00, rdata]
+      - [0x112280, rdata]
+      - [0x125340, rdata]
+      - [0x1253C0, rdata]
+      - [0x125400, rdata]
+      - [0x125480, rdata]
+      - [0x1254C0, rdata]
+      - [0x1255C0, rdata]
+      - [0x125600, rdata]
+      - [0x125640, rdata]
+      - [0x125680, rdata]
+      - [0x1256C0, rdata]
+      - [0x125700, rdata]
+      - [0x125740, rdata]
+      - [0x125780, rdata]
+      - [0x1257C0, rdata]
+      - [0x125880, rdata] # bss start?
+      - [0x125940, rdata]
+      - [0x125B00, rdata]
+      - [0x125B80, rdata]
+      - [0x125F00, rdata]
+      - [0x125F40, rdata]
+      - [0x125FC0, rdata]
+      - [0x126840, rdata]
+      - [0x127FC0, rdata]
+      - [0x129FC0, rdata]
+      - [0x12A1C0, rdata]
+      - [0x12A200, rdata]
+      - [0x12C480, rdata]
+      - [0x12C580, rdata]
+      - [0x12C780, rdata]
+      - [0x12C800, rdata]
+      - [0x12EE80, rdata]
+      - [0x12EF00, rdata]
+      - [0x12FBC0, rdata]
+      - [0x12FC40, rdata]
+      - [0x12FC80, rdata]
+      - [0x130DC0, rdata]
+      - [0x130E00, rdata]
+      - [0x131580, rdata]
+      - [0x1319C0, rdata]
+      - [0x131AC0, rdata]
+      - [0x131B00, rdata]
+      - [0x131D00, rdata]
+      - [0x131E00, rdata]
+      - [0x131F40, rdata]
+      - [0x132280, rdata]
+      - [0x1322C0, rdata]
+      - [0x132300, rdata]
+      - [0x132340, rdata]
+      - [0x132540, rdata]
+      - [0x132580, rdata]
+      - [0x1325C0, rdata]
+      - [0x132F40, rdata]
+      - [0x139E40, bin] # .data start?
+
+  - [0x191AD8]

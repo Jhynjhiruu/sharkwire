@@ -1,0 +1,2 @@
+jtbl_800F0280 = 0x800F0280; // type:jtbl size:0xDC
+D_800EEDE0 = 0x800EEDE0; // type:asciz

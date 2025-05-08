@@ -5,6 +5,8 @@
 
 #define STACK_TOP (0x80400000 - 0x100)
 
+#define REG_SAVE (0x80000200)
+
 #define FRAMEBUFFER_0 (0x80308000)
 #define FRAMEBUFFER_1                                                          \
     ((FRAMEBUFFER_0) + (SCREEN_WIDTH * SCREEN_HEIGHT * 2 * sizeof(u16)))

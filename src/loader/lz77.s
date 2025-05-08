@@ -2,7 +2,6 @@
 
 #define BUF_SIZE (0x1010)
 
-.set noreorder
 .set noat
 
 LEAF(func_802016A0)
@@ -27,7 +26,6 @@ LEAF(func_802016A0)
   POP(k1)
 
   jr     ra
-   nop
 END(func_802016A0)
 
 LEAF(func_802016E4)
@@ -56,7 +54,6 @@ LEAF(func_802016E4)
   add    k0,  1
   add    a3, -1
   bnez   a3, 1b
-   nop
   
   lw     a0,  8(v0)
   add    v0, 12
@@ -75,7 +72,7 @@ LEAF(func_802016E4)
   lbu    k1, -4(sp)
   or     a0, k1
 
-  add    a0,  1
+  add    a0,  1 # a0 = compressed length
 
   xor    a1, a1
   xor    a3, a3
@@ -85,8 +82,7 @@ LEAF(func_802016E4)
 loop:
   srl    a3,  1
   and    k1, a3, 0xFF00
-  bnez   k1, 1f
-   nop
+  bnez   k1, block
 
   lb     s6,  0(v0)
   and    a3, 0xFF00
@@ -94,21 +90,20 @@ loop:
   or     a3, s6
 
   add    a0, -1
+  add    v0,  1
   beqz   a0, done
-   add   v0,  1
   
   or     a3, 0xFF00
 
-1:
+block:
   and    k1, a3, 1
-  beqz   k1, 1f
-   nop
+  beqz   k1, pointer
   
   lb     s4,  0(v0)
 
   add    a0, -1
+  add    v0,  1
   beqz   a0, done
-   add   v0,  1
   
   LI(k1, buffer)
   add    k1, k0
@@ -117,24 +112,24 @@ loop:
   and    k0, 0x0FFF
   
   sb     s4,  0(v1)
+  add    v1,  1
 
   j      loop
-   add   v1,  1
 
-1:
+pointer:
   lb     s2,  0(v0)
   and    a1, 0xFF00
   and    s2, 0x00FF
   or     a1, s2
 
   add    a0, -1
+  add    v0,  1
   beqz   a0, done
-   add   v0,  1
   
   lb     s4,  0(v0)
   add    a0, -1
+  add    v0,  1
   beqz   a0, done
-   add   v0,  1
   
   MOVE(k1, s4)
 
@@ -163,11 +158,10 @@ loop:
   sb     s5,  0(v1)
   add    v1,  1
   add    s4, -1
+  add    a1,  1
   bnez   s4, 1b
-   add   a1,  1
   
   j      loop
-   nop
   
 done:
   POP(k1)
@@ -184,11 +178,9 @@ done:
   POP(s0)
 
   jr     ra
-   nop
 END(func_802016E4)
 
 EXPORT(buffer)
 .space BUF_SIZE
 
 .set at
-.set reorder

@@ -1,6 +1,5 @@
 #include "addrs.h"
 #include "common.h"
-#include "include_asm.h"
 #include "loader/linker.h"
 #include "regs.h"
 
@@ -30,7 +29,7 @@ void func_80202930(void *entry_addr) {
         fbuf[i] = 0;
     }
 
-    func_802037F8(0);
+    func_802037F8(FALSE);
 
     D_80205948 = (void *)PHYS_TO_K1(FRAMEBUFFER_0);
     vi->framebuffer = D_80205948;

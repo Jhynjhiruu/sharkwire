@@ -52,6 +52,9 @@
 #define ra $31 /* return address */
 #define pc $pc /* pc, used on mips16 */
 
+#define NUM_REGS (32)
+#define REG_SIZE (4)
+
 #define fp0 $f0
 #define fp1 $f1
 
@@ -141,8 +144,8 @@
 #define CACHE_SI (2) /* secondary instruction */
 #define CACHE_SD (3) /* secondary data (or combined instruction/data) */
 
-#define INDEX_INVALIDATE                                 \
-    (0) /* also encodes WRITEBACK if CACHE_D or CACHE_SD \
+#define INDEX_INVALIDATE                                                       \
+    (0) /* also encodes WRITEBACK if CACHE_D or CACHE_SD                       \
          */
 #define INDEX_LOAD_TAG (1)
 #define INDEX_STORE_TAG (2)
@@ -172,7 +175,7 @@
 #define INDEX_STORE_TAG_SD BUILD_CACHE_OP(INDEX_STORE_TAG, CACHE_SD)
 
 #define CREATE_DIRTY_EXCLUSIVE_D BUILD_CACHE_OP(CREATE_DIRTY_EXCLUSIVE, CACHE_D)
-#define CREATE_DIRTY_EXCLUSIVE_SD \
+#define CREATE_DIRTY_EXCLUSIVE_SD                                              \
     BUILD_CACHE_OP(CREATE_DIRTY_EXCLUSIVE, CACHE_SD)
 
 #define HIT_INVALIDATE_I BUILD_CACHE_OP(HIT_INVALIDATE, CACHE_I)
@@ -181,9 +184,9 @@
 #define HIT_INVALIDATE_SD BUILD_CACHE_OP(HIT_INVALIDATE, CACHE_SD)
 
 #define CACHE_FILL_I BUILD_CACHE_OP(CACHE_FILL, CACHE_I)
-#define HIT_WRITEBACK_INVALIDATE_D \
+#define HIT_WRITEBACK_INVALIDATE_D                                             \
     BUILD_CACHE_OP(HIT_WRITEBACK_INVALIDATE, CACHE_D)
-#define HIT_WRITEBACK_INVALIDATE_SD \
+#define HIT_WRITEBACK_INVALIDATE_SD                                            \
     BUILD_CACHE_OP(HIT_WRITEBACK_INVALIDATE, CACHE_SD)
 
 #define HIT_WRITEBACK_I BUILD_CACHE_OP(HIT_WRITEBACK, CACHE_I)
@@ -200,27 +203,27 @@
 
 /* Useful macros: */
 #ifdef __ASSEMBLER__
-#define LEAF(x) \
-    .globl x;   \
-    .ent x, 0;  \
-    x:;         \
+#define LEAF(x)                                                                \
+    .globl x;                                                                  \
+    .ent x, 0;                                                                 \
+    x:;                                                                        \
     .frame sp, 0, ra
 
-#define END(proc) \
-    .end proc;    \
+#define END(proc)                                                              \
+    .end proc;                                                                 \
     .equ proc##_size, .- proc
 
-#define EXPORT(x) \
-    .globl x;     \
+#define EXPORT(x)                                                              \
+    .globl x;                                                                  \
     x:
 
-#define LA(reg, temp, addr) \
-    lui temp, % hi(addr);   \
+#define LA(reg, temp, addr)                                                    \
+    lui temp, % hi(addr);                                                      \
     addiu reg, temp, % lo(addr);
 
 #ifndef NON_MATCHING
-#define LI(reg, val)         \
-    lui reg, % lo(val##_hi); \
+#define LI(reg, val)                                                           \
+    lui reg, % lo(val##_hi);                                                   \
     ori reg, reg, % lo(val);
 #else
 #define LI(reg, val) la reg, val;
@@ -232,18 +235,22 @@
 #define LI_LOW(reg, val) li reg, val
 #endif
 
-#define LOAD_RANGE(reg1, reg2, start, end, size) \
-    lui reg1, % hi(start);                       \
-    addiu reg2, reg1, % lo(end);                 \
+#define LOAD_RANGE(reg1, reg2, start, end, size)                               \
+    lui reg1, % hi(start);                                                     \
+    addiu reg2, reg1, % lo(end);                                               \
     addiu reg2, reg2, -size
 
-#define PREV(reg, of, size, amt) \
-    addi of, of, -amt;           \
-    s##size reg, 0(of);
+#define PREV(reg, of, size, amt)                                               \
+    .set noreorder;                                                            \
+    addi of, of, -amt;                                                         \
+    s##size reg, 0(of);                                                        \
+    .set reorder;
 
-#define NEXT(reg, of, size, amt) \
-    l##size reg, 0(of);          \
-    addi of, of, amt;
+#define NEXT(reg, of, size, amt)                                               \
+    .set noreorder;                                                            \
+    l##size reg, 0(of);                                                        \
+    addi of, of, amt;                                                          \
+    .set reorder;
 
 #define PREVH(reg, of) PREV(reg, of, h, 2);
 #define NEXTH(reg, of) NEXT(reg, of, h, 2);

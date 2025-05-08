@@ -97,7 +97,7 @@ endif
 
 # Final output
 $(BINARY): $(OUT)
-	$(TOOLS_DIR)/$(SHARKPATCH) $< $@ $(foreach p,$(PATCHES),-p $p)
+	$(TOOLS_DIR)/$(SHARKPATCH) $< $@ $(foreach p,$(PATCHES),-p $p) $(foreach t,$(TRUNCATE_TO),-t $t)
 
 $(OUT): $(BUILD_DIR)/$(BASE_NAME).tmp
 	dd if=$< of=$@ bs=8 conv=sync status=none
@@ -142,6 +142,10 @@ $(BUILD_DIR)/%.o: $(BUILD_DIR)/%.bin
 
 $(BUILD_DIR)/%.bin: %.bin
 	$(CP) -f $< $@
+
+# Compress source file to LZ77
+#$(BUILD_DIR)/assets/$(BASE_NAME)/lz77.bin: $(LZ77_FILE:assets/%=assets/$(BASE_NAME)/%)
+	#$(TOOLS_DIR)/$(SHARKWIRE_LZ77) $< $@ compress
 
 # Build font from source image
 $(BUILD_DIR)/assets/$(BASE_NAME)/%.bin: assets/$(BASE_NAME)/%.png

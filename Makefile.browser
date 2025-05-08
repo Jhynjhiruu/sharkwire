@@ -1,0 +1,52 @@
+# Make magic that needs to happen
+
+.PHONY: all setup split allclean splitclean distclean
+
+.DEFAULT: all
+
+# Settings you might want to play with
+
+COMPARE := 1
+
+# Settings you probably shouldn't play with
+
+BASE_NAME := browser
+
+C_FILES := src/main.c
+M_FILES := 
+S_FILES := src/40.s src/25D40.s
+D_FILES := data/DFD40.rdata.s
+B_FILES := 
+
+##LZ77_FILE := assets/browser.bin
+
+# Flags
+
+# Flags that change based on whether we're matching or not
+
+ifeq ($(COMPARE),1)
+	PATCHES := 53C3C:06400018 10C72:08420842084210841084108418C6 199E4:3C02800EAFB40020AFBF00240C007B2024543A443C04800E24843A54 25D30:9482000230A500FF3042FF7F10A00003
+##	FSBLOB_ARGS := --pad 0x2B4E0
+##	GSCRC_ARGS := -e 0x80200400
+else
+	PATCHES := 
+##	FSBLOB_ARGS := --pad 0x2B4E0
+##	GSCRC_ARGS := 
+endif
+
+# Rules
+
+# Main rule + match check
+all: compare
+
+include Makefile.common
+
+$(BINARY): TRUNCATE_TO := 0x191AD8
+
+compare: $(BINARY)
+ifeq ($(COMPARE),1)
+	@sha1sum $<
+	@sha1sum -c $(BASE_NAME).sha1
+endif
+
+include $(TOOLS_DIR)/Makefile
